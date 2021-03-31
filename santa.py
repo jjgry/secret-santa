@@ -1,6 +1,7 @@
 import random
 import string
 import urllib.parse
+import argparse
 
 
 def choose_receiver(giver, receivers):
@@ -43,7 +44,8 @@ def create_webpages(group_name, group_name_url, pairs):
         if giver == 'index':
             raise Exception("'{}' is not an acceptable name".format(giver))
         giver_safe = urllib.parse.quote(giver).lower()
-        new_filepath = './{}/{}-{}.shtml'.format(group_name_url, giver_safe, random_url(20))
+        new_filepath = './{}/{}-{}.shtml'.format(
+            group_name_url, giver_safe, random_url(20))
 
         modified_text = text.replace('RECEIVER', receiver)
 
@@ -51,14 +53,45 @@ def create_webpages(group_name, group_name_url, pairs):
             new_file.write(modified_text)
 
 
-# group_name = 'Girl Gang'
-# group_name_url = 'girl-gang'
-# names = ['Balint', 'Benjamin', 'Izzy', 'JJ', 'Sid']
-# pairs = make_pairs(names)
-# create_webpages(group_name, group_name_url, pairs)
+def main():
+    # group_name = 'Girl Gang'
+    # group_name_url = 'girl-gang'
+    # names = ['Balint', 'Benjamin', 'Izzy', 'JJ', 'Sid']
+    # pairs = make_pairs(names)
+    # create_webpages(group_name, group_name_url, pairs)
 
-group_name = 'Ladingtons'
-group_name_url = 'ladingtons'
-names = ['Andrew', 'Brad', 'JJ', 'Joe', 'Grant', 'Dmitry']
-pairs = make_pairs(names)
-create_webpages(group_name, group_name_url, pairs)
+    group_name = 'Ladingtons'
+    group_name_url = 'test'
+    names = ['Andrew', 'Brad', 'JJ', 'Joe', 'Grant', 'Dmitry']
+    pairs = make_pairs(names)
+    create_webpages(group_name, group_name_url, pairs)
+
+    CLI = argparse.ArgumentParser()
+    CLI.add_argument(
+        "names",  # name on the CLI - drop the `--` for positional/required parameters
+        nargs="*",  # 0 or more values expected => creates a list
+        type=str,
+        default=None,  # default if nothing is provided
+    )
+    CLI.add_argument(
+        "--name-urls",
+        nargs="*",
+        type=str,  # any type/callable can be used here
+        default=None,
+    )
+    CLI.add_argument(
+        "--group",
+        nargs="*",
+        type=str,  # any type/callable can be used here
+        default=None,
+    )
+    CLI.add_argument(
+        "--group-url",
+        nargs="*",
+        type=str,  # any type/callable can be used here
+        default=None,
+    )
+
+
+if __name__ == "__main__":
+    main()
